@@ -16,6 +16,8 @@ KEY_TO_DIRECTION = {
 class SnakeCollisionError(Exception):
     pass
 
+class SnakeEndCondition(Exception):
+    pass
 
 class Snake():
     def __init__(self):
@@ -59,7 +61,8 @@ class Snake():
         next_snake_head = (
             next_vector[0] + snake_head[0], next_vector[1] + snake_head[1])
         if next_snake_head == self.food_cords:
-            # if len( Snake.snake) == 99:  to do : win condition
+            if len(self.snake) == 99:
+                raise SnakeEndCondition
             self.food_cords = choice(list(self.get_empty_board_cords()))
         else:
             self.snake.pop(0)
@@ -71,7 +74,6 @@ class Snake():
         self.last_direction = self.direction
 
     def is_next_turn_valid(self):
-        # ta funkcja sprawdza czy nie chcemy isc do tylu
         opposite_direction = {
             'up': 'down',
             'down': 'up',
@@ -123,9 +125,11 @@ if __name__ == "__main__":
         try:
             while True:
                 snake.print_board()
-                sleep(0.1)
+                sleep(0.5)
                 system('cls')
                 snake.move_snake()
+        except SnakeEndCondition:
+            print('You win!')
         except IndexError:
             print('You loose!')
         except SnakeCollisionError:

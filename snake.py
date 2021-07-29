@@ -4,7 +4,6 @@ from os import system
 from time import sleep
 from pynput.keyboard import Listener, Key
 
-# SINGLETON
 
 KEY_TO_DIRECTION = {
     Key.up : 'up',
